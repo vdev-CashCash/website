@@ -1,5 +1,4 @@
 import './LoginSignup.css'
-
 import user_icon from '../Assets/login.png'
 import password_icon from '../Assets/password.png'
 
@@ -7,7 +6,7 @@ const LoginSignup = () => {
         return (
             <div className= 'container'>
             <div className= 'header'>
-            <div className= 'text'>Logi</div>
+            <div className= 'text'>Login</div>
             <div className= 'underline'></div>
             </div>
             <div className='inputs'>
