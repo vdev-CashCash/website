@@ -1,5 +1,4 @@
 import './LoginSignup.css'
-
 import user_icon from '../Assets/login.png'
 import password_icon from '../Assets/password.png'
 
