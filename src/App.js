@@ -19,10 +19,8 @@ function App() {
     <Router>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/connexion" element={<Accueil />} />
           <Route path="/mes_fiches" element={MesFiches} />
           <Route path="/fiche_en_cours" element={FichesEnCours} />
-          <Route path="/" element={RechercheFiches} />
           <Route path="/recherche_fiches" element={RechercheFiches} />
           <Route path="/profil" element={Profil} />
           <Route path="statistiques" element={Statistiques} />
