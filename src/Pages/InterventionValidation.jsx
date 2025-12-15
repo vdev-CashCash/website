@@ -2,81 +2,34 @@ import './InterventionValidation.css'
 
 export default function InterventionValidation() {
     return (
-        <main className="iv-page">
-            <div className="iv-card">
-                <h1 className="iv-title">Fiche d'intervention : Validation</h1>
+        <div className="page">
+            <div className="sheet">
+                <h1>FICHE D'INTERVENTION : VALIDATION</h1>
 
-                <section className="iv-section">
-                    <h2 className="iv-section-title">Information de l'intervention :</h2>
+                <h3>Information de l'intervention :</h3>
+                <p>Date Intervention : <input type="text" placeholder="JJ/MM/AAAA" /></p>
+                <p>Heure Intervention : <input type="text" placeholder="hh:mm" /></p>
+                <p>Temps passé (Durée) : <input type="text" placeholder="hh:mm" /></p>
 
-                    <label className="iv-label">Date Intervention :
-                        <input className="iv-field" type="text" placeholder="JJ/MM/AAAA" />
-                    </label>
+                <h3>Information sur le matériel :</h3>
+                <p>Numéro de série matériel : <input type="text" placeholder="numéro de série" /></p>
+                <p>Emplacement du matériel : <input type="text" placeholder="emplacement" /></p>
 
-                    <label className="iv-label">Heure Intervention :
-                        <input className="iv-field" type="text" placeholder="hh:mm" />
-                    </label>
+                <h3>Information sur le client :</h3>
+                <p>Adresse : <input type="text" placeholder="adresse" /></p>
+                <p>Durée du déplacement : <input type="text" placeholder="durée" /></p>
+                <p>Téléphone : <input type="text" placeholder="téléphone" /></p>
 
-                    <label className="iv-label">Temps passé (Durée) :
-                        <input className="iv-field" type="text" placeholder="hh:mm" />
-                    </label>
-                </section>
+                <h3>Information sur le technicien :</h3>
+                <p>Matricule : <input type="text" placeholder="matricule" /></p>
+                <p>Nom : <input type="text" placeholder="nom" /></p>
+                <p>Prénom : <input type="text" placeholder="prénom" /></p>
 
-                <section className="iv-section">
-                    <h2 className="iv-section-title">Information sur le matériel :</h2>
+                <h3>Commentaire :</h3>
+                <p><input type="text" placeholder="Entrez un commentaire..." /></p>
 
-                    <label className="iv-label">Numéro de série matériel :
-                        <input className="iv-field" type="text" placeholder="numéro de série" />
-                    </label>
-
-                    <label className="iv-label">Emplacement du matériel :
-                        <input className="iv-field" type="text" placeholder="emplacement" />
-                    </label>
-                </section>
-
-                <section className="iv-section">
-                    <h2 className="iv-section-title">Information sur le client :</h2>
-
-                    <label className="iv-label">Adresse :
-                        <input className="iv-field" type="text" placeholder="adresse" />
-                    </label>
-
-                    <label className="iv-label">Durée du déplacement :
-                        <input className="iv-field" type="text" placeholder="durée" />
-                    </label>
-
-                    <label className="iv-label">Téléphone :
-                        <input className="iv-field" type="text" placeholder="téléphone" />
-                    </label>
-                </section>
-
-                <section className="iv-section">
-                    <h2 className="iv-section-title">Information sur le technicien :</h2>
-
-                    <label className="iv-label">Matricule :
-                        <input className="iv-field" type="text" placeholder="matricule" />
-                    </label>
-
-                    <label className="iv-label">Nom :
-                        <input className="iv-field" type="text" placeholder="nom" />
-                    </label>
-
-                    <label className="iv-label">Prénom :
-                        <input className="iv-field" type="text" placeholder="prénom" />
-                    </label>
-                </section>
-
-                <section className="iv-section">
-                    <h2 className="iv-section-title">Commentaire :</h2>
-                    <label className="iv-label">
-                        <input className="iv-field" type="text" placeholder="Entrez un commentaire..." />
-                    </label>
-                </section>
-
-                <div className="iv-actions">
-                    <button className="iv-button">Pré-visualiser les détails</button>
-                </div>
+                <p><button className="btn">Pré-visualiser les détails</button></p>
             </div>
-        </main>
-    );
+        </div>
+    )
 }
