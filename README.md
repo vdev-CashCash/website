@@ -1,8 +1,8 @@
 # Lancer le projet :
 ## npm start
 
-#Suivi projet :
-## ce qu'il manque :
+# Suivi projet :
+### ce qu'il manque :
 * Connexion API (attente fin prog API)
 * Visualisation des fiches du technicien ("Liste")
 * Visualisation de la recherche des fiches ("Liste")
