@@ -1,3 +1,14 @@
+# Lancer le projet :
+## npm start
+
+# Suivi projet :
+### ce qu'il manque :
+* Connexion API (attente fin prog API)
+* Visualisation des fiches du technicien ("Liste")
+* Visualisation de la recherche des fiches ("Liste")
+* Visualisation du profil (nom, prenom, matricule, role, bouton deconnexion)
+* Visualisation des statistiques du technicien (Se renseigner sur le sujet..)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
