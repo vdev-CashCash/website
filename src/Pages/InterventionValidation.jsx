@@ -1,6 +1,22 @@
 import './InterventionValidation.css'
+import { useState } from "react";
 
 export default function InterventionValidation() {
+    const [dateIntervention_vval, setDateIntervention] = useState('');
+    const [heureIntervention_vval, setHeureIntervention] = useState('');
+    const [tempsPasse_vval, setTempsPasse] = useState('');
+    const [numSerieMateriel_vval, setNumSerieMateriel] = useState('');
+    const [emplacementMateriel_vval, setEmplacementMateriel] = useState('');
+    const [adresseClient_vval, setAdresseClient] = useState('');
+    const [dureeDeplacementClient_vval, setDureeDeplacementClient] = useState('');
+    const [telephoneClient_vval, setTelephoneClient] = useState('');
+    const [matriculeTech_vval, setMatriculeTech] = useState('');
+    const [nomTech_vval, setNomTech] = useState('');
+    const [prenomTech_vval, setPrenomTech] = useState('');
+    const [commentaire_vval, setCommentaire] = useState('');
+
+    
+    
     return (
         <div className="page">
             <div className="sheet">
@@ -28,7 +44,7 @@ export default function InterventionValidation() {
                 <h3>Commentaire :</h3>
                 <p><input type="text" placeholder="Entrez un commentaire..." /></p>
 
-                <p><button className="btn">Pré-visualiser les détails</button></p>
+                <p><button className="btn">Valider la fiche d'intervention</button></p>
             </div>
         </div>
     )

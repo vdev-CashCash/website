@@ -43,7 +43,7 @@ const LoginSignup = () => {
     }
 
 const Login = async (matricule, password) => {
-    const API_URL = 'https://elf-api.koyeb.app/elf-cashcash-api';
+    const API_URL = 'http://localhost:8080';
     try {
     const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',

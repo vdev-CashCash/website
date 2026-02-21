@@ -14,7 +14,6 @@ export default function InterventionPreVisualisation() {
     const [nomTech_vdev, setNomTech] = useState('');
     const [prenomTech_vdev, setPrenomTech] = useState('');
     const [message, setMessage] = useState('');
-    const authProvider = "local";
 /*
     const PreVisuaInterv = (e) => {
         e.preventDefault();
@@ -35,7 +34,6 @@ export default function InterventionPreVisualisation() {
                 matriculeTech_vdev,
                 nomTech_vdev,
                 prenomTech_vdev,
-                auth_provider: authProvider // send the auth_provider (local or google)
             })
         })
         .then(res => res.json())
