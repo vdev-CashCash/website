@@ -19,7 +19,7 @@ const LoginSignup = () => {
         }
     }
 
-        return (
+        return <div className='h-screen flex items-center'>
             <div className= 'container'>
             <div className= 'header'>
             <div className= 'text'>Login</div>
@@ -39,7 +39,7 @@ const LoginSignup = () => {
             <div className="submit" onClick={handleLogin}>Login</div>
             </div>
             </div>
-        )
+        </div>
     }
 
 const Login = async (matricule, password) => {
