@@ -35,4 +35,3 @@ export default function ChangementInfosIntervention({ numIntervention_vdev, date
     }
     return <input value="Confirmer changements" className="bg-rose-700 text-center hover:bg-rose-950 hover:text-white py-2 px-4 rounded-full cursor-pointer" onClick={handleSetUpdate} />
 }
-//
