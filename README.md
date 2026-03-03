@@ -4,7 +4,6 @@
 # Suivi projet :
 ### ce qu'il manque :
 * Visualisation des fiches du technicien ("Liste")
-* Visualisation de la recherche des fiches ("Liste")
 * Visualisation du profil (nom, prenom, matricule, role, bouton deconnexion)
 * Visualisation des statistiques du technicien (Se renseigner sur le sujet..)
 
