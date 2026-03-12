@@ -16,8 +16,10 @@ export default function Header() {
                 :
                 <Link to="/creation-intervention" className="justify-self-center border-2 border-slate-300 bg-slate-50 rounded-md p-2 hover:bg-white hover:border-slate-100 hover:text-slate-800"><button className="uppercase font-semibold">Créer une intervention</button></Link>
             }
-            <Link to="/recherche_fiches" className="justify-self-center border-2 border-slate-300 bg-slate-50 rounded-md p-2 hover:bg-white hover:border-slate-100 hover:text-slate-800"><button className="uppercase font-semibold">Rechercher une fiche</button></Link>
-            <Link to="/fiche_en_cours" className="justify-self-center border-2 border-slate-300 bg-slate-50 rounded-md p-2 hover:bg-white hover:border-slate-100 hover:text-slate-800"><button className="uppercase font-semibold">En cours</button></Link>
+            {
+                role==="Technicien" &&
+                <Link to="/fiche_en_cours" className="justify-self-center border-2 border-slate-300 bg-slate-50 rounded-md p-2 hover:bg-white hover:border-slate-100 hover:text-slate-800"><button className="uppercase font-semibold">En cours</button></Link>
+            }
             <Link to="/statistiques" className="justify-self-center border-2 border-slate-300 bg-slate-50 rounded-md p-2 hover:bg-white hover:border-slate-100 hover:text-slate-800"><button className="uppercase font-semibold">{ 
                 role==="Technicien" ? 'Mes statistiques' : 'Statistiques techniciens'
             }</button></Link>

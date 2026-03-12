@@ -1,72 +1,67 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import InterventionValidation from "./InterventionValidation";
+import html2pdf from "html2pdf.js";
 
 export default function InterventionPreVisualisation() {
-    const [dateIntervention_vdev, setDateIntervention] = useState('');
-    const [heureIntervention_vdev, setHeureIntervention] = useState('');
-    const [numSerieMateriel_vdev, setNumSerieMateriel] = useState('');
-    const [emplacementMateriel_vdev, setEmplacementMateriel] = useState('');
-    const [adresseClient_vdev, setAdresseClient] = useState('');
-    const [dureeDeplacementClient_vdev, setDureeDeplacementClient] = useState('');
-    const [distanceAgenceClient_vdev, setDistanceAgenceClient] = useState('');
-    const [telephoneClient_vdev, setTelephoneClient] = useState('');
-    const [emailClient_vdev, setEmailClient] = useState('');
-    const [matriculeTech_vdev, setMatriculeTech] = useState('');
-    const [nomTech_vdev, setNomTech] = useState('');
-    const [prenomTech_vdev, setPrenomTech] = useState('');
-    const [message, setMessage] = useState('');
-/*
-    const PreVisuaInterv = (e) => {
-        e.preventDefault();
+    const [step, setStep] = useState('1');
 
-        fetch("http://localhost:8001/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                dateIntervention_vdev,
-                heureIntervention_vdev,
-                numSerieMateriel_vdev,
-                emplacementMateriel_vdev,
-                adresseClient_vdev,
-                dureeDeplacementClient_vdev,
-                distanceAgenceClient_vdev,
-                telephoneClient_vdev,
-                emailClient_vdev,
-                matriculeTech_vdev,
-                nomTech_vdev,
-                prenomTech_vdev,
+    const [datas, setDatas] = useState({});
+        const numIntervention_vdev = 76;
+        useEffect((e) => {    
+            fetch(`http://localhost:8080/intervention/getDetailsInterv/${numIntervention_vdev}`, {
+                headers: { 
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                 },
             })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if(data.success){
-                setMessage("Pré-visualisation de l'intervention réussie !");
-            } else {
-                setMessage("Erreur : " + data.message);
+            .then(res => res.json())
+            .then(data => setDatas(data))
+        }, [])
+
+        const options = {
+            filename: `intervention-${numIntervention_vdev}.pdf`,
+            margin: .1,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+        };
+
+        const contentRef = useRef(null);
+
+        const convertToPdf = () => {
+            const content = contentRef.current;
+            html2pdf().set(options).from(content).save();
+        };
+
+    return <>
+            {
+            step==="1" &&
+                <div id="preview-intervention" className="flex flex-wrap place-content-center min-h-screen">
+                    <form className="border-2 border-solid border-slate-300 py-6 px-6 rounded-sm bg-slate-50" ref={contentRef}>
+                        <h1 className="uppercase w-full text-center mb-5 text-2xl border-b-2 border-solid border-b-slate-300">Fiche d'intervention : Pré-visualisation</h1>
+                        <label className="border-b border-solid border-b-slate-300 text-lg">Date de l'intervention : </label><br /><p  className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="date" required placeholder="date">{datas.dateIntervention_vdev}</p><br/>
+                        <label className="border-b border-solid border-b-slate-300 text-lg">Heure de l'intervention : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="time" required placeholder="heure">{datas.heureIntervention_vdev}</p><br/>
+                        <label className="border-b border-solid border-b-slate-300 text-lg">Numéro de série du matériel : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="num de série">{datas.numSerie_vdev}</p><br/>
+                        <label className="border-b border-solid border-b-slate-300 text-lg">Emplacement du matériel : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="emplacement matériel">{datas.emplacement_vdev}</p><br/>
+                        <label className="border-b border-solid border-b-slate-300 text-lg">Adresse du client : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="adresse client">{datas.adressePostale_vdev}</p><br/>
+                        <label className="border-b border-solid border-b-slate-300 text-lg">Durée du déplacement client : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="durée déplacement client">{datas.dureeDeplacement_vdev}</p><br/>
+                        <label className="border-b border-solid border-b-slate-300 text-lg">Distance agence-client : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="number" required placeholder="distance agence-client">{datas.distanceAgenceClient_vdev}</p><br/> {/*Distance en Km*/}
+                        <label className="border-b border-solid border-b-slate-300 text-lg">Téléphone client : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="téléphone client">{datas.telephone_vdev}</p><br/>
+                        <label className="border-b border-solid border-b-slate-300 text-lg">Email client : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="email client">{datas.mail_vdev}</p><br/>
+                        <label className="border-b border-solid border-b-slate-300 text-lg">Matricule du technicien : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="matricule">{datas.matriculeTechnicien_vdev}</p><br/>
+                        <label className="border-b border-solid border-b-slate-300 text-lg">Nom du technicien : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="nom technicien">{datas.nom_vdev}</p><br/>
+                        <label className="border-b border-solid border-b-slate-300 text-lg">Prénom du technicien : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="prénom technicien">{datas.prenom_vdev}</p><br/>
+                        <button onClick={convertToPdf} className="bg-rose-700 hover:bg-rose-950 hover:text-white py-2 px-4 rounded-full cursor-pointer">Convertir en PDF</button>
+                        {
+                            JSON.parse(atob(localStorage.getItem('token').split('.')[1])).roles[0]==="Technicien" &&
+                            <button className="bg-green-700 hover:bg-green-950 hover:text-white py-2 px-4 rounded-full cursor-pointer" onClick={() => setStep('2')}>Terminer la fiche</button>
+                        }
+                    </form>
+                </div>
             }
-        })
-        .catch(err => {
-            console.error(err);
-            setMessage("Erreur serveur.");
-        });
-    }
-*/
-    return <div id="preview-intervention" className="flex flex-wrap place-content-center min-h-screen">
-        <form className="border-2 border-solid border-slate-300 py-6 px-6 rounded-sm bg-slate-50">
-            <h1 className="uppercase w-full text-center mb-5 text-2xl border-b-2 border-solid border-b-slate-300">Fiche d'intervention : Pré-visualisation</h1>
-            <label className="border-b border-solid border-b-slate-300 text-lg">Date de l'intervention : </label><br /><input  className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="date" required placeholder="date" value={dateIntervention_vdev} onChange={(e) => setDateIntervention(e.target.value)}/><br/>
-            <label className="border-b border-solid border-b-slate-300 text-lg">Heure de l'intervention : </label><br /><input className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="time" required placeholder="heure" value={heureIntervention_vdev} onChange={(e) => setHeureIntervention(e.target.value)}/><br/>
-            <label className="border-b border-solid border-b-slate-300 text-lg">Numéro de série du matériel : </label><br /><input className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="num de série" value={numSerieMateriel_vdev} onChange={(e) => setNumSerieMateriel(e.target.value)}/><br/>
-            <label className="border-b border-solid border-b-slate-300 text-lg">Emplacement du matériel : </label><br /><input className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="emplacement matériel" value={emplacementMateriel_vdev} onChange={(e) => setEmplacementMateriel(e.target.value)}/><br/>
-            <label className="border-b border-solid border-b-slate-300 text-lg">Adresse du client : </label><br /><input className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="adresse client" value={adresseClient_vdev} onChange={(e) => setAdresseClient(e.target.value)}/><br/>
-            <label className="border-b border-solid border-b-slate-300 text-lg">Durée du déplacement client : </label><br /><input className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="durée déplacement client" value={dureeDeplacementClient_vdev} onChange={(e) => setDureeDeplacementClient(e.target.value)}/><br/>
-            <label className="border-b border-solid border-b-slate-300 text-lg">Distance agence-client : </label><br /><input className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="number" required placeholder="distance agence-client" value={distanceAgenceClient_vdev} onChange={(e) => setDistanceAgenceClient(e.target.value)}/><br/> {/*Distance en Km*/}
-            <label className="border-b border-solid border-b-slate-300 text-lg">Téléphone client : </label><br /><input className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="téléphone client" value={telephoneClient_vdev} onChange={(e) => setTelephoneClient(e.target.value)}/><br/>
-            <label className="border-b border-solid border-b-slate-300 text-lg">Email client : </label><br /><input className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="email client" value={emailClient_vdev} onChange={(e) => setEmailClient(e.target.value)}/><br/>
-            <label className="border-b border-solid border-b-slate-300 text-lg">Matricule du technicien : </label><br /><input className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="matricule" value={matriculeTech_vdev} onChange={(e) => setMatriculeTech(e.target.value)}/><br/>
-            <label className="border-b border-solid border-b-slate-300 text-lg">Nom du technicien : </label><br /><input className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="nom technicien" value={nomTech_vdev} onChange={(e) => setNomTech(e.target.value)}/><br/>
-            <label className="border-b border-solid border-b-slate-300 text-lg">Prénom du technicien : </label><br /><input className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="prénom technicien" value={prenomTech_vdev} onChange={(e) => setPrenomTech(e.target.value)}/><br/>
-            <input type="submit" value="Confirmer les détails" className="bg-rose-700 hover:bg-rose-950 hover:text-white py-2 px-4 rounded-full cursor-pointer" />
-        </form>
-        {message && <p className="text-center mt-4 w-full">{message}</p>}
-    </div>
+
+            {
+                step==="2" && <InterventionValidation datas={datas} />
+            }
+            </>
 }
