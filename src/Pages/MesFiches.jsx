@@ -4,7 +4,7 @@ export default function MesFiches(){
  
   useEffect(() => {
     const fetchFiches = async () => {
-      const token = await localstorage.getItem("token");
+      const token = await localStorage.getItem("token");
       const payload = JSON.parse(atob(token.split(".")[1]));
       const matricule = payload.sub;
  
@@ -20,13 +20,9 @@ export default function MesFiches(){
       );
  
       if (response.status === 401) {
-        alert(
-          "Vous avez été déconnecté de l'application. Veuillez vous reconnecter à l'application..",
-        );
         return;
       }
       if (!response.ok) {
-        Alert.alert("Erreur", "Impossible de charger vos interventions");
         return;
       }
  
@@ -36,5 +32,5 @@ export default function MesFiches(){
  
     fetchFiches();
   }, []);
-    return ()
+    return (<></>)
 }
