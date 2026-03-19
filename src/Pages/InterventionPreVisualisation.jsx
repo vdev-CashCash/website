@@ -4,8 +4,10 @@ import html2pdf from "html2pdf.js";
 
 export default function InterventionPreVisualisation() {
     const [step, setStep] = useState('1');
-
+    const [commentaire, setCommentaire] = useState("");
+    const [tempsPasse, setTempsPasse] = useState(0);
     const [datas, setDatas] = useState({});
+
         const numIntervention_vdev = 76;
         useEffect((e) => {    
             fetch(`http://localhost:8080/intervention/getDetailsInterv/${numIntervention_vdev}`, {
@@ -16,7 +18,17 @@ export default function InterventionPreVisualisation() {
             })
             .then(res => res.json())
             .then(data => setDatas(data))
+
+            fetch(`http://localhost:8080/intervention/getCommentaireTP/${numIntervention_vdev}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                },
+            })
+            .then(resB => resB.json())
+            .then(dataB => setCommentaire(dataB.commentaire_vdev) & setTempsPasse(dataB.tempPasse_vdev))
         }, [])
+
 
         const options = {
             filename: `intervention-${numIntervention_vdev}.pdf`,
@@ -51,9 +63,11 @@ export default function InterventionPreVisualisation() {
                         <label className="border-b border-solid border-b-slate-300 text-lg">Matricule du technicien : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="matricule">{datas.matriculeTechnicien_vdev}</p><br/>
                         <label className="border-b border-solid border-b-slate-300 text-lg">Nom du technicien : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="nom technicien">{datas.nom_vdev}</p><br/>
                         <label className="border-b border-solid border-b-slate-300 text-lg">Prénom du technicien : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="prénom technicien">{datas.prenom_vdev}</p><br/>
+                        <label className="border-b border-solid border-b-slate-300 text-lg">Commentaire : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="commentaire">{commentaire}</p><br/>
+                        <label className="border-b border-solid border-b-slate-300 text-lg">Temps passé : </label><br /><p className="border-dotted border-b-[3px] border-b-slate-500 mb-4" type="text" required placeholder="temps passé">{tempsPasse} minutes</p><br/>
                         <button onClick={convertToPdf} className="bg-rose-700 hover:bg-rose-950 hover:text-white py-2 px-4 rounded-full cursor-pointer">Convertir en PDF</button>
                         {
-                            JSON.parse(atob(localStorage.getItem('token').split('.')[1])).roles[0]==="Technicien" &&
+                            JSON.parse(atob(localStorage.getItem('token').split('.')[1])).roles[0]==="Technicien" && commentaire === "" && tempsPasse === 0 &&
                             <button className="bg-green-700 hover:bg-green-950 hover:text-white py-2 px-4 rounded-full cursor-pointer" onClick={() => setStep('2')}>Terminer la fiche</button>
                         }
                     </form>

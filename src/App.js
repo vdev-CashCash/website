@@ -4,7 +4,6 @@ import Layout from "./Layout";
 import Error from "./Pages/Error";
 import Profil from "./Pages/Profil";
 import FichesEnCours from "./Pages/FichesEnCours";
-import RechercheFiches from "./Pages/RechercheFiches";
 import MesFiches from "./Pages/MesFiches";
 import Statistiques from "./Pages/Statistiques";
 import InterventionCreation from "./Pages/InterventionCreation";
@@ -19,7 +18,6 @@ function App() {
         <Route element={<Layout />}>
           <Route path="mes_fiches" element={<MesFiches />} />
           <Route path="fiche_en_cours" element={<FichesEnCours />} />
-          <Route path="recherche_fiches" element={<RechercheFiches />} />
           <Route path="profil" element={<Profil />} />
           <Route path="statistiques" element={<Statistiques />} />
           <Route path="*" element={<Error />} />
