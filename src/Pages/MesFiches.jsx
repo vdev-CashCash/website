@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function MesFiches() {
 
   const [LesFiches, setFiches] = useState([]);
+  const navigate = useNavigate();
 
   // Fonction pour formater l'heure
   const formatTime = (time) => {
@@ -12,7 +14,7 @@ export default function MesFiches() {
 
   // Fonction au clic sur une intervention
   const handleInterventionClick = (fiche) => {
-    console.log("Intervention cliquée:", fiche);
+    navigate(`/fiche-detail/${fiche.numIntervention_vdev}`);
   };
 
   useEffect(() => {

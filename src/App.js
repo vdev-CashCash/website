@@ -9,6 +9,7 @@ import Statistiques from "./Pages/Statistiques";
 import InterventionCreation from "./Pages/InterventionCreation";
 import InterventionPreVisualisation from "./Pages/InterventionPreVisualisation";
 import InterventionValidation from "./Pages/InterventionValidation";
+import InterventionDetail from "./Pages/InterventionDetail";
 import Connexion from "./Pages/Connexion";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="mes_fiches" element={<MesFiches />} />
+          <Route path="fiche-detail/:id" element={<InterventionDetail />} />
           <Route path="fiche_en_cours" element={<FichesEnCours />} />
           <Route path="profil" element={<Profil />} />
           <Route path="statistiques" element={<Statistiques />} />
