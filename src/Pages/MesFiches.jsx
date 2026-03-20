@@ -13,7 +13,6 @@ export default function MesFiches() {
   // Fonction au clic sur une intervention
   const handleInterventionClick = (fiche) => {
     console.log("Intervention cliquée:", fiche);
-    // À compléter : navigation vers la page détail ou modale
   };
 
   useEffect(() => {
