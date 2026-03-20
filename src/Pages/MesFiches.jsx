@@ -9,7 +9,18 @@ export default function MesFiches() {
   // Fonction pour formater l'heure
   const formatTime = (time) => {
     if (!time) return "N/A";
-    return `${String(time.hour).padStart(2, "0")}:${String(time.minute).padStart(2, "0")}`;
+    
+    // Si c'est un string
+    if (typeof time === 'string') {
+      return time;
+    }
+    
+    // Si c'est un objet avec hour et minute
+    if (typeof time === 'object' && time.hour !== undefined && time.minute !== undefined) {
+      return `${String(time.hour).padStart(2, "0")}:${String(time.minute).padStart(2, "0")}`;
+    }
+    
+    return "N/A";
   };
 
   // Fonction au clic sur une intervention
