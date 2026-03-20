@@ -213,11 +213,29 @@ export default function InterventionDetail() {
             </div>
           );
         })}
-        <button onClick={convertToPdf} className="bg-rose-700 hover:bg-rose-950 hover:text-white py-2 px-4 rounded-full cursor-pointer mt-2">Convertir en PDF</button>
+        <div>
+            <label style={{ fontWeight: "600", display: "block", marginBottom: "8px", color: "#666" }}>
+              Commentaire :
+            </label>
+            <p style={{ margin: 0, fontSize: "16px", color: "#333" }}>
+              {commentaire}
+            </p>
+          </div>
+          <div>
+            <label style={{ fontWeight: "600", display: "block", marginBottom: "8px", color: "#666" }}>
+              Temps passé
+            </label>
+            <p style={{ margin: 0, fontSize: "16px", color: "#333" }}>
+              {tempsPasse}
+            </p>
+          </div>
+        <div className="flex flex-row gap-2 justify-end">
         {
           JSON.parse(atob(localStorage.getItem('token').split('.')[1])).roles[0]==="Technicien" && commentaire === "" && tempsPasse === 0 &&
           <button className="bg-green-700 hover:bg-green-950 hover:text-white py-2 px-4 rounded-full cursor-pointer" onClick={() => setStep('2')}>Terminer la fiche</button>
         }
+                  <button onClick={convertToPdf} className="bg-rose-700 hover:bg-rose-950 hover:text-white py-2 px-4 rounded-full cursor-pointer mt-2">Convertir en PDF</button>
+        </div>
       </div>
     </div>
     )
