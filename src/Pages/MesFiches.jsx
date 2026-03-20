@@ -41,9 +41,13 @@ export default function MesFiches() {
 
       const payload = JSON.parse(atob(token.split(".")[1]));
       const matricule = payload.sub;
+      const role = payload.roles[0];
+      const agence = payload.agence;
+
+      const lien = role==="Technicien" ? `http://localhost:8080/intervention/getFichesByMatricule/${matricule}` : `http://localhost:8080/intervention/getFiches/${agence}`;
 
       const response = await fetch(
-        `http://localhost:8080/intervention/getFichesByMatricule/${matricule}`,
+        lien,
         {
           method: "GET",
           headers: {
@@ -54,7 +58,7 @@ export default function MesFiches() {
       );
 
       if (response.status === 401) {
-        console.error("Non autorisé");
+        navigate("/");
         return;
       }
 
@@ -64,7 +68,6 @@ export default function MesFiches() {
       }
 
       const data = await response.json();
-      console.log(data);
 
       setFiches(data);
     };

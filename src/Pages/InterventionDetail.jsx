@@ -1,11 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import html2pdf from "html2pdf.js";
+import InterventionValidation from "./InterventionValidation";
 
 export default function InterventionDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [fiche, setFiche] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [commentaire, setCommentaire] = useState("");
+  const [tempsPasse, setTempsPasse] = useState(0);
+  const [step, setStep] = useState("1");
+
+  const options = {
+    filename: `intervention-${id}.pdf`,
+    margin: .1,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+};
+  
+  const contentRef = useRef(null);
+
+  const convertToPdf = () => {
+      const content = contentRef.current;
+      html2pdf().set(options).from(content).save();
+  };
 
   // Fonction pour formater l'heure
   const formatTime = (time) => {
@@ -67,6 +87,15 @@ export default function InterventionDetail() {
       }
     };
 
+    fetch(`http://localhost:8080/intervention/getCommentaireTP/${id}`, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+    })
+    .then(resB => resB.json())
+    .then(dataB => setCommentaire(dataB.commentaire_vdev) & setTempsPasse(dataB.tempPasse_vdev))
+
     fetchFicheDetail();
   }, [id]);
 
@@ -103,7 +132,8 @@ export default function InterventionDetail() {
   }
 
   return (
-    <div style={{ padding: "20px", maxWidth: "800px" }}>
+    step === "2" ? <InterventionValidation datas={fiche} /> : (
+    <div style={{ padding: "20px" }} className="w-full flex justify-center">
       <button
         onClick={() => navigate("/mes_fiches")}
         style={{
@@ -116,6 +146,7 @@ export default function InterventionDetail() {
           cursor: "pointer",
           fontSize: "14px",
         }}
+        className="absolute left-0 top-auto ml-1"
       >
         ← Retour aux fiches
       </button>
@@ -128,6 +159,8 @@ export default function InterventionDetail() {
           padding: "24px",
           boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
         }}
+        className="flex flex-col w-[50%] justify-self-center"
+        ref={contentRef}
       >
         <h1 style={{ marginTop: 0, color: "#333" }}>
           Intervention #{fiche.numIntervention_vdev}
@@ -180,7 +213,13 @@ export default function InterventionDetail() {
             </div>
           );
         })}
+        <button onClick={convertToPdf} className="bg-rose-700 hover:bg-rose-950 hover:text-white py-2 px-4 rounded-full cursor-pointer mt-2">Convertir en PDF</button>
+        {
+          JSON.parse(atob(localStorage.getItem('token').split('.')[1])).roles[0]==="Technicien" && commentaire === "" && tempsPasse === 0 &&
+          <button className="bg-green-700 hover:bg-green-950 hover:text-white py-2 px-4 rounded-full cursor-pointer" onClick={() => setStep('2')}>Terminer la fiche</button>
+        }
       </div>
     </div>
-  );
+    )
+    )
 }
