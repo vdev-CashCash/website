@@ -86,7 +86,7 @@ export default function InterventionDetail() {
           style={{
             padding: "10px 20px",
             marginBottom: "20px",
-            backgroundColor: "#007bff",
+            backgroundColor: "#dc3545",
             color: "white",
             border: "none",
             borderRadius: "4px",
@@ -109,7 +109,7 @@ export default function InterventionDetail() {
         style={{
           padding: "10px 20px",
           marginBottom: "20px",
-          backgroundColor: "#007bff",
+          backgroundColor: "#dc3545",
           color: "white",
           border: "none",
           borderRadius: "4px",
