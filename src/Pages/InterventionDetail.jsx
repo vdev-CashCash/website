@@ -2,10 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import html2pdf from "html2pdf.js";
 import InterventionValidation from "./InterventionValidation";
+import SuppressionIntervention from "../Components/SuppressionIntervention";
+import ChangementInfosIntervention from "../Components/ChangementInfosIntervention";
 
 export default function InterventionDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [numIntervention_vdev, setNumIntervention] = useState("");
+  const [dateVisite_vdev, setDateVisite] = useState("");
+  const [heureVisite_vdev, setHeureVisite] = useState("");
+  const [matriculeEmploye_vdev, setMatriculeEmploye] = useState("");
   const [fiche, setFiche] = useState(null);
   const [loading, setLoading] = useState(true);
   const [commentaire, setCommentaire] = useState("");
@@ -80,6 +86,10 @@ export default function InterventionDetail() {
 
         const data = await response.json();
         setFiche(data);
+        setDateVisite(data.dateIntervention_vdev);
+        setHeureVisite(data.heureIntervention_vdev);
+        setMatriculeEmploye(data.matriculeTechnicien_vdev);
+        setNumIntervention(data.numIntervention_vdev);
       } catch (error) {
         console.error("Erreur lors du chargement:", error);
       } finally {
@@ -178,18 +188,18 @@ export default function InterventionDetail() {
             <label style={{ fontWeight: "600", display: "block", marginBottom: "8px", color: "#666" }}>
               Date :
             </label>
-            <p style={{ margin: 0, fontSize: "16px", color: "#333" }}>
-              {fiche.dateIntervention_vdev}
-            </p>
+            <input type="date" value={dateVisite_vdev} onChange={(e) => 
+              JSON.parse(atob(localStorage.getItem('token').split('.')[1])).roles[0]==="Gestionnaire" && setDateVisite(e.target.value)
+            } />
           </div>
 
           <div>
             <label style={{ fontWeight: "600", display: "block", marginBottom: "8px", color: "#666" }}>
               Heure :
             </label>
-            <p style={{ margin: 0, fontSize: "16px", color: "#333" }}>
-              {formatTime(fiche.heureIntervention_vdev)}
-            </p>
+            <input type="time" value={heureVisite_vdev} onChange={(e) =>
+              JSON.parse(atob(localStorage.getItem('token').split('.')[1])).roles[0]==="Gestionnaire" && setHeureVisite(e.target.value)
+            } />
           </div>
         </div>
 
@@ -197,6 +207,7 @@ export default function InterventionDetail() {
           if (
             key === "numIntervention_vdev" ||
             key === "dateIntervention_vdev" ||
+            key === "matriculeTechnicien_vdev" ||
             key === "heureIntervention_vdev"
           ) {
             return null;
@@ -213,6 +224,14 @@ export default function InterventionDetail() {
             </div>
           );
         })}
+        <div>
+            <label style={{ fontWeight: "600", display: "block", marginBottom: "8px", color: "#666" }}>
+              Matricule :
+            </label>
+            <input type="text" value={matriculeEmploye_vdev} onChange={(e) =>
+              JSON.parse(atob(localStorage.getItem('token').split('.')[1])).roles[0]==="Gestionnaire" && setMatriculeEmploye(e.target.value)
+            } />
+          </div>
         <div>
             <label style={{ fontWeight: "600", display: "block", marginBottom: "8px", color: "#666" }}>
               Commentaire :
@@ -234,7 +253,14 @@ export default function InterventionDetail() {
           JSON.parse(atob(localStorage.getItem('token').split('.')[1])).roles[0]==="Technicien" && commentaire === "" && tempsPasse === 0 &&
           <button className="bg-green-700 hover:bg-green-950 hover:text-white py-2 px-4 rounded-full cursor-pointer" onClick={() => setStep('2')}>Terminer la fiche</button>
         }
-                  <button onClick={convertToPdf} className="bg-rose-700 hover:bg-rose-950 hover:text-white py-2 px-4 rounded-full cursor-pointer mt-2">Convertir en PDF</button>
+        {
+          JSON.parse(atob(localStorage.getItem('token').split('.')[1])).roles[0]==="Gestionnaire" &&
+          (<div>
+            <SuppressionIntervention datas={fiche} />
+            <ChangementInfosIntervention heureVisite_vdev={heureVisite_vdev} dateVisite_vdev={dateVisite_vdev} numIntervention_vdev={numIntervention_vdev} matriculeEmploye_vdev={matriculeEmploye_vdev} />
+          </div>)
+        }
+        <button onClick={convertToPdf} className="bg-rose-700 hover:bg-rose-950 hover:text-white py-2 px-4 rounded-full cursor-pointer mt-2">Convertir en PDF</button>
         </div>
       </div>
     </div>
