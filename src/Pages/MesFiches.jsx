@@ -78,7 +78,7 @@ export default function MesFiches() {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1>Mes Fiches</h1>
+      <h1 className="text-2xl text-gray-900 w-full text-center">Gestionnaire des fiches d'intervention</h1>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "16px", marginTop: "20px" }}>
         {LesFiches.map((fiche) => (
           <div
